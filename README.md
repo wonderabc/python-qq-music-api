@@ -7,3 +7,6 @@ QQ音乐API，仅实现部分功能
 统计歌手独唱歌曲（即singer列表里仅有一人）的收藏数，目前只包含接口第一页的歌曲（最大值100首）
 ### use_multi_singer.py
 包含了多人演唱的歌曲
+
+##reference
+php 实现：[php-qq-music-api](https://github.com/itisbean/php-qq-music-api)
