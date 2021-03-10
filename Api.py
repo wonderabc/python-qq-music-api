@@ -72,7 +72,7 @@ class Api:
 
     @staticmethod
     def getMusicFavNum(songId):  # 通过QQ音乐歌曲ID获取歌曲收藏数，返回的是dict，歌曲id对应唯一的收藏数
-        songList = list(map(int, songId.split(',')))  # 传输歌曲ID列表
+        songList = list(map(int, songId.split(',')))  # 存储歌曲ID列表
         url = 'https://u.y.qq.com/cgi-bin/musicu.fcg'
         data = {  # 请求参数
             'result': {
@@ -110,5 +110,32 @@ class Api:
         req = requests.get(url, data).text
         req = json.loads(req)
         return req['result']['data']['songList']
+
+    @staticmethod
+    def getMusicHitInfo(songMid):  # 通过MID获取歌曲流行指数，流行指数超过阈值才会返回信息
+        # 返回的是dict，歌曲Mid对应唯一的流行指数信息（包含流行指数和收听人数等）
+        songList = list(songMid.split(','))  # 存储歌曲MID列表
+        url = 'https://u.y.qq.com/cgi-bin/musicu.fcg'
+        data = {  # 请求参数
+            'result': {
+                'module': 'music.musicToplist.PlayTopInfoServer',
+                'method': 'GetPlayTopData',
+                'param': {
+                    'songMidList': songList,
+                    'requireSongInfo': 0,
+                },
+            }
+        }
+        req = requests.post(url, json=data).text
+        req = json.loads(req)
+        return req['result']['data']['data']
+
+
+# 000oCQfT3kdonw 黄霄云MID
+# 星辰大海MID 002LNOds0rYvpK
+print(Api.getMusicHitInfo('002LNOds0rYvpK'))
+
+
+
 
 
