@@ -133,7 +133,7 @@ class Api:
 
 # 000oCQfT3kdonw 黄霄云MID
 # 星辰大海MID 002LNOds0rYvpK
-print(Api.getMusicHitInfo('002LNOds0rYvpK'))
+# print(Api.getMusicHitInfo('002LNOds0rYvpK'))
 
 
 

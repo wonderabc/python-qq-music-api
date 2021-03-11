@@ -9,4 +9,4 @@ QQ音乐API，仅实现部分功能
 包含了多人演唱的歌曲
 
 ## reference
-php 实现：[php-qq-music-api](https://github.com/itisbean/php-qq-music-api)
+php实现：[php-qq-music-api](https://github.com/itisbean/php-qq-music-api)
