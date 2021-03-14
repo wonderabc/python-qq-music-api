@@ -36,10 +36,11 @@ class ExtendApi:
             songName = song['songInfo']['title']  # 页显歌名
             FavNum = Api.getMusicFavNum(songID)[songID]  # 获取歌曲收藏数
             singerInfo = ExtendApi.GetSingerList(song['songInfo']['singer'])  # 歌手名列表，用中文分号分隔
-            songInfo = {'songName': songName, 'singerInfo': singerInfo, 'FavNum': FavNum}  # 存储歌曲信息
+            songInfo = {'songName': songName, 'singerInfo': singerInfo, 'FavNum': int(FavNum)}  # 存储歌曲信息
             songInfoList.append(songInfo)
-        sorted(songInfoList, key=itemgetter('FavNum'))
+        songInfoList = sorted(songInfoList, key=itemgetter('FavNum'), reverse=True)  # reverse=True表示降序
         songInfoList = songInfoList[:k]
         return songInfoList
 
 
+print(ExtendApi.GetTopkFavbyName(10, "容祖儿"))
