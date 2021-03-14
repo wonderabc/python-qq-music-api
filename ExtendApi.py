@@ -43,4 +43,3 @@ class ExtendApi:
         return songInfoList
 
 
-print(ExtendApi.GetTopkFavbyName(10, "容祖儿"))
