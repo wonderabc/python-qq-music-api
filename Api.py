@@ -85,7 +85,7 @@ class Api:
         }
         req = requests.post(url, json=data).text
         req = json.loads(req)
-        return req['result']['data']['m_numbers']
+        return req['result']['data']['m_numbers'][songId]
 
     @staticmethod
     def getSonglistBysinger(singerMid, page=1, pageSize=100):  # 通过歌手Mid获取该歌手的歌曲列表
