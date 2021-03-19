@@ -32,6 +32,8 @@ class ExtendApi:
         """
         Mid = Api.searchSinger(singername)  # 获得歌手MID
         songList = Api.getSonglistBysinger(Mid)
+        if len(songList) == 0:
+            return
         songInfoList = []
         pool = ThreadPoolExecutor(max_workers=64)  # 线程池
         obj_list = []  # 存储线程
@@ -45,7 +47,8 @@ class ExtendApi:
             # obj_list.append(obj)
 
             # FavNum = Api.getMusicFavNum(songID)  # 单线程
-        songIDInfo = songIDInfo[:-1]
+        if len(songIDInfo) > 0:
+            songIDInfo = songIDInfo[:-1]
         FavNumList = Api.getMusicFavNum(songIDInfo)
         # wait(obj_list, timeout=None)  # 全部执行完毕
         for song in songList:
@@ -66,6 +69,8 @@ class ExtendApi:
     def GetRelasongFavInfo(songName):  # 通过歌名获得最相关的十首歌曲的收藏信息
         result = Api.keywordSearch(songName, type='lyric')
         songList = list(json.loads(result)['data']['lyric']['list'])
+        if len(songList) == 0:
+            return
         songInfoList = []
         pool = ThreadPoolExecutor(max_workers=8)  # 线程池
         obj_list = []  # 存储线程
@@ -78,7 +83,8 @@ class ExtendApi:
             # obj = pool.submit(Api.getMusicFavNum, songID)
             # obj_list.append(obj)
             # FavNum = Api.getMusicFavNum(songID)  # 单线程
-        songIDInfo = songIDInfo[:-1]
+        if len(songIDInfo) > 0:
+            songIDInfo = songIDInfo[:-1]
         FavNumList = Api.getMusicFavNum(songIDInfo)
         # wait(obj_list, timeout=None)  # 全部执行完毕
         for song in songList:
@@ -95,7 +101,7 @@ class ExtendApi:
 
 if __name__ == "__main__":
     begin = time.time()
-    print(ExtendApi.GetTopkFavbyName(10, "容祖儿"))
+    print(ExtendApi.GetTopkFavbyName(10, "邓紫棋"))
     times = time.time() - begin
     print("运行时间是：", times)
     begin = time.time()
