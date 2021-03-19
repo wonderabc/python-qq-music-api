@@ -35,24 +35,31 @@ class ExtendApi:
         songInfoList = []
         pool = ThreadPoolExecutor(max_workers=64)  # 线程池
         obj_list = []  # 存储线程
+        songIDInfo = ""
         for song in songList:
             songID = str(song['songInfo']['id'])
+            songIDInfo += songID + ","
             # 多线程
             # 提高效率关键部分
-            obj = pool.submit(Api.getMusicFavNum, songID)
-            obj_list.append(obj)
+            # obj = pool.submit(Api.getMusicFavNum, songID)
+            # obj_list.append(obj)
+
             # FavNum = Api.getMusicFavNum(songID)  # 单线程
-        wait(obj_list, timeout=None)  # 全部执行完毕
+        songIDInfo = songIDInfo[:-1]
+        FavNumList = Api.getMusicFavNum(songIDInfo)
+        # wait(obj_list, timeout=None)  # 全部执行完毕
         for song in songList:
-            index = songList.index(song)  # 根据index取运行结果
+            # index = songList.index(song)  # 根据index取运行结果
+            songID = str(song['songInfo']['id'])
             songName = song['songInfo']['title']  # 页显歌名
             singerInfo = ExtendApi.GetSingerList(song['songInfo']['singer'])  # 歌手名列表，用中文分号分隔
-            FavNum = obj_list[index].result()  # 根据index取运行结果
+            # FavNum = obj_list[index].result()  # 根据index取运行结果
+            FavNum = FavNumList[songID]
             songInfo = {'songName': songName, 'singerInfo': singerInfo, 'FavNum': int(FavNum)}  # 存储歌曲信息
             songInfoList.append(songInfo)
         songInfoList = sorted(songInfoList, key=itemgetter('FavNum'), reverse=True)  # reverse=True表示降序
         songInfoList = songInfoList[:k]
-        pool.shutdown(wait=True)
+        # pool.shutdown(wait=True)
         return songInfoList
 
     @staticmethod
@@ -62,25 +69,36 @@ class ExtendApi:
         songInfoList = []
         pool = ThreadPoolExecutor(max_workers=8)  # 线程池
         obj_list = []  # 存储线程
+        songIDInfo = ""
         for song in songList:
             songID = str(song['id'])
+            songIDInfo += songID + ","
             # 多线程
             # 提高效率关键部分
-            obj = pool.submit(Api.getMusicFavNum, songID)
-            obj_list.append(obj)
+            # obj = pool.submit(Api.getMusicFavNum, songID)
+            # obj_list.append(obj)
             # FavNum = Api.getMusicFavNum(songID)  # 单线程
-        wait(obj_list, timeout=None)  # 全部执行完毕
+        songIDInfo = songIDInfo[:-1]
+        FavNumList = Api.getMusicFavNum(songIDInfo)
+        # wait(obj_list, timeout=None)  # 全部执行完毕
         for song in songList:
-            index = songList.index(song)  # 根据index取运行结果
+            # index = songList.index(song)  # 根据index取运行结果
+            songID = str(song['id'])
             songName = song['title']
             singerInfo = ExtendApi.GetSingerList(song['singer'])
-            FavNum = obj_list[index].result()  # 根据index取运行结果
+            # FavNum = obj_list[index].result()  # 根据index取运行结果
+            FavNum = FavNumList[songID]
             songInfo = {'songName': songName, 'singerInfo': singerInfo, 'FavNum': int(FavNum)}
             songInfoList.append(songInfo)
         return songInfoList
 
 
-# begin = time.time()
-# print(ExtendApi.GetRelasongFavInfo("有种"))
-# times = time.time() - begin
-# print(times)
+if __name__ == "__main__":
+    begin = time.time()
+    print(ExtendApi.GetTopkFavbyName(10, "容祖儿"))
+    times = time.time() - begin
+    print("运行时间是：", times)
+    begin = time.time()
+    print(ExtendApi.GetRelasongFavInfo("告白气球"))
+    times = time.time() - begin
+    print("运行时间是：", times)
