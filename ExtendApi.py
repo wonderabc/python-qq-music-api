@@ -56,6 +56,9 @@ class ExtendApi:
             # index = songList.index(song)  # 根据index取运行结果
             songID = str(song['songInfo']['id'])
             songName = song['songInfo']['title']  # 页显歌名
+            songsubName = song['songInfo']['subtitle']  # 歌名子标题
+            if len(songsubName) > 0:  # 如果包含子标题
+                songName += "（" + songsubName + "）"  # 拼接成完整标题
             singerInfo = ExtendApi.GetSingerList(song['songInfo']['singer'])  # 歌手名列表，用中文分号分隔
             # FavNum = obj_list[index].result()  # 根据index取运行结果
             FavNum = FavNumList[songID]
@@ -93,6 +96,9 @@ class ExtendApi:
             # index = songList.index(song)  # 根据index取运行结果
             songID = str(song['id'])
             songName = song['title']
+            songsubName = song['subtitle']  # 歌名子标题
+            if len(songsubName) > 0:  # 如果包含子标题
+                songName += "（" + songsubName + "）"  # 拼接成完整标题
             singerInfo = ExtendApi.GetSingerList(song['singer'])
             # FavNum = obj_list[index].result()  # 根据index取运行结果
             FavNum = FavNumList[songID]
