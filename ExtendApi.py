@@ -1,3 +1,4 @@
+# v1.1 歌曲信息中增加专辑信息的返回
 # 实现一些扩展功能，基于多线程优化效率
 # 1. 通过歌手姓名（与QQ音乐显示的完全一致）返回接口第一页（maximum 100首）收藏数前k的歌曲信息
 # 2. 通过歌名获得最相关的十首歌曲的收藏信息
@@ -58,7 +59,8 @@ class ExtendApi:
             singerInfo = ExtendApi.GetSingerList(song['songInfo']['singer'])  # 歌手名列表，用中文分号分隔
             # FavNum = obj_list[index].result()  # 根据index取运行结果
             FavNum = FavNumList[songID]
-            songInfo = {'songName': songName, 'singerInfo': singerInfo, 'FavNum': int(FavNum)}  # 存储歌曲信息
+            albumInfo = song['songInfo']['album']['title']  # 增加专辑信息的显示
+            songInfo = {'songName': songName, 'singerInfo': singerInfo, 'albumInfo': albumInfo, 'FavNum': int(FavNum)}  # 存储歌曲信息
             songInfoList.append(songInfo)
         songInfoList = sorted(songInfoList, key=itemgetter('FavNum'), reverse=True)  # reverse=True表示降序
         songInfoList = songInfoList[:k]
@@ -94,14 +96,15 @@ class ExtendApi:
             singerInfo = ExtendApi.GetSingerList(song['singer'])
             # FavNum = obj_list[index].result()  # 根据index取运行结果
             FavNum = FavNumList[songID]
-            songInfo = {'songName': songName, 'singerInfo': singerInfo, 'FavNum': int(FavNum)}
+            albumInfo = song['album']['title']  # 获得专辑信息
+            songInfo = {'songName': songName, 'singerInfo': singerInfo, 'albumInfo': albumInfo, 'FavNum': int(FavNum)}
             songInfoList.append(songInfo)
         return songInfoList
 
 
 if __name__ == "__main__":
     begin = time.time()
-    print(ExtendApi.GetTopkFavbyName(10, "邓紫棋"))
+    print(ExtendApi.GetTopkFavbyName(10, "容祖儿"))
     times = time.time() - begin
     print("运行时间是：", times)
     begin = time.time()
