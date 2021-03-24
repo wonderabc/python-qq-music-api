@@ -33,6 +33,9 @@ class ExtendApi:
         """
         Mid = Api.searchSinger(singername)  # 获得歌手MID
         songList = Api.getSonglistBysinger(Mid)
+        # 歌手作品较多时
+        # songList += Api.getSonglistBysinger(Mid, page=2)
+        # songList += Api.getSonglistBysinger(Mid, page=3)
         if len(songList) == 0:
             return
         songInfoList = []
